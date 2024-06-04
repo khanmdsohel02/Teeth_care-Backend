@@ -96,6 +96,32 @@ async function run() {
 
     // treatmentsCollection End
 
+    //Appointment Collection Start
+    const appointmentsCollection = teethCareDB.collection("appointments");
+
+    app.post("/appointment", verifyToken, async (req, res) => {
+      const appointmentData = req.body;
+      const isUserExist = await appointmentsCollection.findOne({
+        email: appointmentData.patientEmail,
+        treatment: appointmentData.treatment,
+      });
+      if (isUserExist?._id) {
+        return res.send({
+          message: "Already You Have An Appointment! Teeth Care",
+          token,
+        });
+      }
+      const result = await appointmentsCollection.insertOne(appointmentData);
+      res.send({ result, token });
+    });
+
+    app.get("/appointments", async (req, res) => {
+      const appointmentsData = appointmentsCollection.find();
+      const result = await appointmentsData.toArray();
+
+      res.send(result);
+    });
+
     // usersCollection Start
 
     const usersCollection = teethCareDB.collection("users");
