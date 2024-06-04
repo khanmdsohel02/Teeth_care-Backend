@@ -1,6 +1,7 @@
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 const { log } = require("console");
 
 const app = express();
@@ -8,6 +9,11 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+const createToken = (user) => {
+  const token = jwt.sign({ email: user.email }, "secret", { expiresIn: "10h" });
+  return token;
+};
 
 const uri =
   "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -80,8 +86,21 @@ async function run() {
 
     app.post("/users", async (req, res) => {
       const userData = req.body;
+      const token = createToken(userData);
+      console.log(token);
+      const isUserExist = await usersCollection.findOne({
+        email: userData.email,
+      });
+      if (isUserExist?._id) {
+        return res.send({
+          status: "User Successfully Login",
+          message: "Welcome Back! Teeth Care",
+          token,
+        });
+      }
+
       const result = await usersCollection.insertOne(userData);
-      res.send(result);
+      res.send({ result, token });
     });
 
     app.get("/users/:email", async (req, res) => {
