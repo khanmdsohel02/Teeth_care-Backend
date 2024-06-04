@@ -192,7 +192,9 @@ async function run() {
 
     // reviewsCollection End
 
-    // blogsCollection End
+    app.get("/", (req, res) => {
+      res.send("Assalamu Alaikum developers!");
+    });
 
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
