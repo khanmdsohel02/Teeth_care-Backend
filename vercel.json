@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "cleanUrls": true,
   "builds": [
     {
       "src": "index.js",
@@ -10,6 +11,18 @@
     {
       "src": "/(.*)",
       "dest": "index.js"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/old-path",
+      "destination": "/new-path",
+      "permanent": true
+    },
+    {
+      "source": "/another-old-path",
+      "destination": "https://external-site.com",
+      "permanent": false
     }
   ]
 }
