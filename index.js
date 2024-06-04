@@ -193,7 +193,7 @@ async function run() {
     // reviewsCollection End
 
     app.get("/", (req, res) => {
-      res.send("Assalamu Alaikum developers!");
+      res.send("Assalamu Alaikum Developers!");
     });
 
     app.listen(port, () => {
