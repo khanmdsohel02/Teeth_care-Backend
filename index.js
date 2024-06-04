@@ -123,7 +123,7 @@ async function run() {
       const query = req.params.email;
       const userUpdatedData = req.body;
       console.log(userUpdatedData, query);
-      const result = await usersCollection.findOne(
+      const result = await usersCollection.updateOne(
         {
           email: query,
         },
