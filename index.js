@@ -15,6 +15,22 @@ const createToken = (user) => {
   return token;
 };
 
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send("unauthorized access");
+  }
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, "secret", function (err, decoded) {
+    if (err) {
+      return res.status(403).send({ message: "forbidden access" });
+    }
+    const email = decoded.email;
+    if (email) req.user = email;
+    next();
+  });
+};
+
 const uri =
   "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -34,7 +50,7 @@ async function run() {
     const treatmentsCollection = teethCareDB.collection("treatments");
 
     // treatmentsCollection Start
-    app.post("/treatment", async (req, res) => {
+    app.post("/treatment", verifyToken, async (req, res) => {
       const treatmentData = req.body;
       const result = await treatmentsCollection.insertOne(treatmentData);
       res.send(result);
@@ -47,7 +63,7 @@ async function run() {
       res.send(result);
     });
 
-    app.delete("/treatment/:id", async (req, res) => {
+    app.delete("/treatment/:id", verifyToken, async (req, res) => {
       const query = req.params.id;
       const result = await treatmentsCollection.deleteOne({
         _id: new ObjectId(query),
@@ -65,7 +81,7 @@ async function run() {
       res.send(result);
     });
 
-    app.patch("/treatment/:id", async (req, res) => {
+    app.patch("/treatment/:id", verifyToken, async (req, res) => {
       const query = req.params.id;
       const treatmentData = req.body;
       const result = await treatmentsCollection.updateOne(
@@ -103,6 +119,22 @@ async function run() {
       res.send({ result, token });
     });
 
+    app.put("/update-user/:email", verifyToken, async (req, res) => {
+      const query = req.params.email;
+      const userUpdatedData = req.body;
+      console.log(userUpdatedData, query);
+      const result = await usersCollection.findOne(
+        {
+          email: query,
+        },
+        {
+          $set: userUpdatedData,
+        }
+      );
+
+      res.send(result);
+    });
+
     app.get("/users/:email", async (req, res) => {
       const query = req.params.email;
       console.log(query);
@@ -126,7 +158,7 @@ async function run() {
 
     const blogsCollection = teethCareDB.collection("blogs");
 
-    app.post("/blog", async (req, res) => {
+    app.post("/blog", verifyToken, async (req, res) => {
       const blogData = req.body;
       const result = await blogsCollection.insertOne(blogData);
       res.send(result);
@@ -145,7 +177,7 @@ async function run() {
 
     const reviewsCollection = teethCareDB.collection("reviews");
 
-    app.post("/review", async (req, res) => {
+    app.post("/review", verifyToken, async (req, res) => {
       const reviewData = req.body;
       const result = await reviewsCollection.insertOne(reviewData);
       res.send(result);
