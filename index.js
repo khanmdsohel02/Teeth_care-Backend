@@ -99,7 +99,7 @@ async function run() {
     //Appointment Collection Start
     const appointmentsCollection = teethCareDB.collection("appointments");
 
-    app.post("/appointment", verifyToken, async (req, res) => {
+    app.post("/appointment", async (req, res) => {
       const appointmentData = req.body;
       const isUserExist = await appointmentsCollection.findOne({
         email: appointmentData.patientEmail,
