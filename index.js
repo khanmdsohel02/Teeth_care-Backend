@@ -49,7 +49,7 @@ async function run() {
     const teethCareDB = client.db("TeethCareDB");
     const treatmentsCollection = teethCareDB.collection("treatments");
 
-    // treatmentsCollection Start
+    // treatmentsCollection Start***********************
     app.post("/treatment", verifyToken, async (req, res) => {
       const treatmentData = req.body;
       const result = await treatmentsCollection.insertOne(treatmentData);
@@ -94,25 +94,25 @@ async function run() {
       res.send(result);
     });
 
-    // treatmentsCollection End
+    // treatmentsCollection End*********************
 
-    //Appointment Collection Start
+    //Appointment Collection Start********************
+
     const appointmentsCollection = teethCareDB.collection("appointments");
 
-    app.post("/appointment", async (req, res) => {
+    app.post("/appointment", verifyToken, async (req, res) => {
       const appointmentData = req.body;
+      const treatment = appointmentData.treatment;
       const isUserExist = await appointmentsCollection.findOne({
-        email: appointmentData.patientEmail,
-        treatment: appointmentData.treatment,
+        treatment: treatment,
       });
       if (isUserExist?._id) {
         return res.send({
-          message: "Already You Have An Appointment! Teeth Care",
-          token,
+          message: `Already You Have ${treatment} Appointment! Teeth Care`,
         });
       }
       const result = await appointmentsCollection.insertOne(appointmentData);
-      res.send({ result, token });
+      res.send(result);
     });
 
     app.get("/appointments", async (req, res) => {
