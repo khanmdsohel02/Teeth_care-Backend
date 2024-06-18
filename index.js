@@ -4,6 +4,8 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const { log } = require("console");
 
+require("dotenv").config();
+
 const app = express();
 const port = 3000;
 
@@ -31,10 +33,7 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const uri =
-  "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
+const client = new MongoClient(process.env.MongoDB_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -119,6 +118,28 @@ async function run() {
     app.get("/appointments", async (req, res) => {
       const appointmentsData = appointmentsCollection.find();
       const result = await appointmentsData.toArray();
+
+      res.send(result);
+    });
+
+    app.delete("/appointment/:id", verifyToken, async (req, res) => {
+      const query = req.params.id;
+      const result = await appointmentsCollection.deleteOne({
+        _id: new ObjectId(query),
+      });
+
+      res.send(result);
+    });
+
+    app.put("/appointment/:id", verifyToken, async (req, res) => {
+      const query = req.params.id;
+      const appointmentData = req.body;
+      const result = await appointmentsCollection.updateOne(
+        { _id: new ObjectId(query) },
+        {
+          $set: appointmentData,
+        }
+      );
 
       res.send(result);
     });
