@@ -43,7 +43,6 @@ const client = new MongoClient(process.env.MongoDB_URI, {
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     const teethCareDB = client.db("TeethCareDB");
     const treatmentsCollection = teethCareDB.collection("treatments");
@@ -118,7 +117,6 @@ async function run() {
     app.get("/appointments", async (req, res) => {
       const appointmentsData = appointmentsCollection.find();
       const result = await appointmentsData.toArray();
-
       res.send(result);
     });
 
@@ -127,7 +125,6 @@ async function run() {
       const result = await appointmentsCollection.deleteOne({
         _id: new ObjectId(query),
       });
-
       res.send(result);
     });
 
@@ -140,7 +137,6 @@ async function run() {
           $set: appointmentData,
         }
       );
-
       res.send(result);
     });
 
@@ -151,7 +147,6 @@ async function run() {
     app.post("/users", async (req, res) => {
       const userData = req.body;
       const token = createToken(userData);
-      console.log(token);
       const isUserExist = await usersCollection.findOne({
         email: userData.email,
       });
@@ -162,7 +157,6 @@ async function run() {
           token,
         });
       }
-
       const result = await usersCollection.insertOne(userData);
       res.send({ result, token });
     });
@@ -170,7 +164,6 @@ async function run() {
     app.put("/update-user/:email", verifyToken, async (req, res) => {
       const query = req.params.email;
       const userUpdatedData = req.body;
-      console.log(userUpdatedData, query);
       const result = await usersCollection.updateOne(
         {
           email: query,
@@ -189,14 +182,12 @@ async function run() {
       const result = await usersCollection.findOne({
         email: query,
       });
-
       res.send(result);
     });
 
     app.get("/users", async (req, res) => {
       const users = usersCollection.find();
       const result = await users.toArray();
-
       res.send(result);
     });
 
@@ -215,7 +206,6 @@ async function run() {
     app.get("/blogs", async (req, res) => {
       const blogsData = blogsCollection.find();
       const result = await blogsData.toArray();
-
       res.send(result);
     });
 
@@ -234,7 +224,6 @@ async function run() {
     app.get("/reviews", async (req, res) => {
       const reviewsData = reviewsCollection.find();
       const result = await reviewsData.toArray();
-
       res.send(result);
     });
 
@@ -253,7 +242,3 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-// teethcarebackend;
-
-// teethcarebackend25;
