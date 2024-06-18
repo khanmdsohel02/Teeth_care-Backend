@@ -57,9 +57,10 @@ async function run() {
     });
 
     app.get("/treatments", async (req, res) => {
-      const treatmentsData = treatmentsCollection.find();
+      const treatmentName = req.query.name;
+      const filter = treatmentName ? { name: treatmentName.trim() } : {};
+      const treatmentsData = treatmentsCollection.find(filter);
       const result = await treatmentsData.toArray();
-
       res.send(result);
     });
 
