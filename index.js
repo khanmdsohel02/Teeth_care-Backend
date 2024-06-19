@@ -56,30 +56,6 @@ async function run() {
       res.send(result);
     });
 
-    //   app.get("/treatments", async (req, res) => {
-    //   try {
-    //     const all = "all";
-    //     const treatmentName = req.query.name === undefined ? all : req.query.name;
-    //     console.log(treatmentName);
-
-    //     let treatmentsData;
-
-    //     if (treatmentName === all) {
-    //       treatmentsData = treatmentsCollection.find();
-    //     } else {
-    //       const filter = treatmentName ? { name: treatmentName.trim() } : {};
-    //       treatmentsData = treatmentsCollection.find(filter);
-    //     }
-
-    //     const result = await treatmentsData.toArray();
-    //     res.send(result);
-
-    //   } catch (error) {
-    //     console.error("Error fetching treatments:", error);
-    //     res.status(500).send("An error occurred while fetching treatments.");
-    //   }
-    // });
-
     app.get("/treatments", async (req, res) => {
       try {
         const all = "all";
