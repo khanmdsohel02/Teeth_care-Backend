@@ -185,6 +185,21 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/users/:email", async (req, res) => {
+      const query = req.params.email;
+      const { newPassword } = req.body;
+      console.log(query, newPassword);
+      const result = await usersCollection.updateOne(
+        {
+          email: query,
+        },
+        {
+          $set: { password: newPassword },
+        }
+      );
+      res.send(result);
+    });
+
     app.get("/users", async (req, res) => {
       const users = usersCollection.find();
       const result = await users.toArray();
