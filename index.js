@@ -39,10 +39,10 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const uri =
-  "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-// const uri = process.env.MongoDB_URI;
-// console.log(uri);
+// const uri =
+// "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MongoDB_URI;
+console.log(uri);
 
 const client = new MongoClient(uri, {
   serverApi: {
