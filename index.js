@@ -5,7 +5,7 @@
 // const { log } = require("console");
 // require("dotenv").config();
 
-import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+import mongodb, { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
@@ -44,7 +44,7 @@ const verifyToken = (req, res, next) => {
 const uri = process.env.MongoDB_URI;
 console.log(uri);
 
-const client = new MongoClient(uri, {
+const client = new MongoClient(mongodb + uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
