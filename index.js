@@ -56,9 +56,9 @@ async function run() {
 
     app.get("/treatments", async (req, res) => {
       const treatmentName = req.query.name;
-      const filter = treatmentName ? { name: treatmentName.trim() } : {};
-      console.log(filter);
-      if (filter) {
+      console.log(treatmentName);
+      if (treatmentName !== undefined) {
+        const filter = treatmentName ? { name: treatmentName.trim() } : {};
         const treatmentsData = treatmentsCollection.find(filter);
         const result = await treatmentsData.toArray();
         res.send(result);
