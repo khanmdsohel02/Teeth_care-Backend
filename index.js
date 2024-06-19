@@ -44,7 +44,7 @@ const verifyToken = (req, res, next) => {
 const uri = process.env.MongoDB_URI;
 console.log(uri);
 
-const client = new MongoClient(mongodb + uri, {
+const client = new MongoClient(`mongodb+srv://${uri}`, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
