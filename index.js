@@ -1,10 +1,16 @@
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-const express = require("express");
-const cors = require("cors");
-const jwt = require("jsonwebtoken");
-const { log } = require("console");
+// const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+// const express = require("express");
+// const cors = require("cors");
+// const jwt = require("jsonwebtoken");
+// const { log } = require("console");
+// require("dotenv").config();
 
-require("dotenv").config();
+import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+import express from "express";
+import cors from "cors";
+import jwt from "jsonwebtoken";
+import { log } from "console";
+import "dotenv/config";
 
 const app = express();
 const port = 3000;
@@ -33,8 +39,11 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const uri =
-  "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const uri =
+//   "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MongoDB_URI;
+console.log(uri);
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
