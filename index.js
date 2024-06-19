@@ -57,15 +57,20 @@ async function run() {
     app.get("/treatments", async (req, res) => {
       const treatmentName = req.query.name;
       console.log(treatmentName);
-      if (treatmentName !== undefined) {
-        const filter = treatmentName ? { name: treatmentName.trim() } : {};
-        const treatmentsData = treatmentsCollection.find(filter);
+      if (treatmentName === undefined) {
+        const treatmentsData = treatmentsCollection.find();
         const result = await treatmentsData.toArray();
         res.send(result);
+      } else if (treatmentName !== undefined) {
+        const filter = treatmentName ? { name: treatmentName.trim() } : {};
+        const treatmentsData = treatmentsCollection.find({
+          name: filter.name,
+        });
+        const result = await treatmentsData.toArray();
+        // console.log(filter.name);
+        // console.log(result);
+        res.send(result);
       }
-      const treatmentsData = treatmentsCollection.find();
-      const result = await treatmentsData.toArray();
-      res.send(result);
     });
 
     app.delete("/treatment/:id", verifyToken, async (req, res) => {
