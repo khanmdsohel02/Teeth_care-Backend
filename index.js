@@ -33,7 +33,9 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const client = new MongoClient(process.env.MongoDB_URI, {
+const uri =
+  "mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
