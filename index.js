@@ -139,8 +139,9 @@ async function run() {
       );
       res.send(result);
     });
+    //Appointment Collection End********************
 
-    // usersCollection Start
+    // usersCollection Start***************************
 
     const usersCollection = teethCareDB.collection("users");
 
@@ -178,7 +179,6 @@ async function run() {
 
     app.get("/users/:email", async (req, res) => {
       const query = req.params.email;
-      console.log(query);
       const result = await usersCollection.findOne({
         email: query,
       });
@@ -188,7 +188,6 @@ async function run() {
     app.put("/users/:email", async (req, res) => {
       const query = req.params.email;
       const { newPassword } = req.body;
-      console.log(query, newPassword);
       const result = await usersCollection.updateOne(
         {
           email: query,
@@ -206,9 +205,9 @@ async function run() {
       res.send(result);
     });
 
-    // usersCollection End
+    // usersCollection End****************
 
-    // blogsCollection Start
+    // blogsCollection Start*********************
 
     const blogsCollection = teethCareDB.collection("blogs");
 
@@ -224,9 +223,9 @@ async function run() {
       res.send(result);
     });
 
-    // blogsCollection End
+    // blogsCollection End*********************
 
-    // reviewsCollection start
+    // reviewsCollection start***********************
 
     const reviewsCollection = teethCareDB.collection("reviews");
 
@@ -242,7 +241,7 @@ async function run() {
       res.send(result);
     });
 
-    // reviewsCollection End
+    // reviewsCollection End**************************
 
     app.get("/", (req, res) => {
       res.send("Assalamu Alaikum Developers!");
