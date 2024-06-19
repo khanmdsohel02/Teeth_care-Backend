@@ -55,20 +55,22 @@ async function run() {
     });
 
     app.get("/treatments", async (req, res) => {
-      const { name } = req.query;
+      const all = "all";
+      const treatmentName = req.query.name === undefined ? all : req.query.name;
+      console.log(treatmentName);
 
-      if (name === undefined) {
+      if (treatmentName === all) {
         const treatmentsData = treatmentsCollection.find();
         const result = await treatmentsData.toArray();
         res.send(result);
-      } else if (name !== undefined) {
-        const filter = name ? { name: name.trim() } : {};
+      } else if (treatmentName !== all) {
+        const filter = treatmentName ? { name: treatmentName.trim() } : {};
         const treatmentsData = treatmentsCollection.find({
           name: filter.name,
         });
         const result = await treatmentsData.toArray();
-        // console.log(filter.name);
-        // console.log(result);
+        console.log(filter.name);
+        console.log(result);
         res.send(result);
       }
     });
