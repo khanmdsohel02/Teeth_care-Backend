@@ -9,7 +9,6 @@ import mongodb, { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import { log } from "console";
 import "dotenv/config";
 
 const app = express();
@@ -42,7 +41,7 @@ const verifyToken = (req, res, next) => {
 
 const uri = `mongodb+srv://teethcarebackend:teethcarebackend25@cluster0.sijewxb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 // const uri = process.env.MongoDB_URI;
-// console.log(uri);
+console.log(typeof uri);
 
 const client = new MongoClient(uri, {
   serverApi: {
