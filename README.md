@@ -27,10 +27,6 @@ Project Planning & Design, Front-End Development, Back-End
 Development, Database Management, Authentication Integration, Email Functionality, Testing &
 Debugging, Deployment & Maintenance
 
-## Run the project locally
-
-- npm run dev
-
 
 ## Run the project locally
 
