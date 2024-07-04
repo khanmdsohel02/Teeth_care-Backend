@@ -1,6 +1,6 @@
-- [Server](https://teeth-care-backend.vercel.app/)
+## [Server](https://teeth-care-backend.vercel.app/)
 
-- [Client](https://teeth-care-client.vercel.app/)
+## [Client](https://teeth-care-client.vercel.app/)
   
 This website is mainly for those who have dental problems to get quick
 service. With the help of this website, we can easily contact the dentist and
